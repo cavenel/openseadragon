@@ -1120,6 +1120,11 @@
                                     'DOMMouseScroll';                                                        // Assume old Firefox
 
     /**
+     * Flag for disabling passive wheel events
+     */
+    $.MouseTracker.passiveWheelEvents = true;
+
+    /**
      * Detect browser pointer device event model(s) and build appropriate list of events to subscribe to.
      */
     $.MouseTracker.subscribeEvents = [ "click", "dblclick", "keydown", "keyup", "keypress", "focus", "blur", "contextmenu", $.MouseTracker.wheelEventName ];
@@ -1469,7 +1474,7 @@
                     tracker.element,
                     event,
                     delegate[ event ],
-                    event === $.MouseTracker.wheelEventName ? { passive: false, capture: false } : false
+                    event === $.MouseTracker.wheelEventName ? { passive: $.MouseTracker.passiveWheelEvents, capture: false } : false
                 );
             }
 
@@ -2101,7 +2106,9 @@
             $.stopEvent( originalEvent );
         }
         if ( ( eventArgs && eventArgs.preventDefault ) || ( eventInfo.preventDefault && !eventInfo.defaultPrevented ) ) {
+            if (originalEvent.cancelable) {
                 $.cancelEvent( originalEvent );
+            }
         }
 }
 
