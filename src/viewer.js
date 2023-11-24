@@ -3121,7 +3121,7 @@ function onCanvasDrag( event ) {
                 newEvent.delta.y = 0;
                 this.dragEventCombined.timeStamp -= this.debouncePanEvents;
                 onCanvasDrag.call(this, newEvent);
-            }.bind(this), this.debouncePanEvents / 5);
+            }.bind(this), Math.max(50, this.debouncePanEvents / 5));
             return;
         }
     }
